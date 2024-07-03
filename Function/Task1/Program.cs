@@ -1,5 +1,4 @@
-﻿using System;
-class Program
+﻿class Program
 {
     static void Main()
     {
@@ -28,7 +27,7 @@ class Program
             }
             else // Если ввод не является числом и не 'q', повторить запрос
             {
-                Console.WriteLine("Некорректный ввод. Пожалуйста, введите целое числоили 'q'.");
+                Console.WriteLine("Некорректный ввод. Пожалуйста, введите целое число или 'q'.");
             }
         }
 }   
