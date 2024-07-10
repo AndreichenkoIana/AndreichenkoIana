@@ -1,21 +1,29 @@
-﻿using system;
+﻿//for (int i = 1; i <= number; i++)
+// {
+//    Console.Write(i + "  ");
+//}
+
+using system;
 internal class Program
 {
-    private static void Main(string[] args)
+    void main()
     {
-        void main()
-        {
-            int number = ReadInt("Введите число: ");
-            for (int i = 1; i <= number; i++)
-            {
-                Console.Write(i + "  ");
-            }
-}
+        int number = ReadInt("Введите число: ");
+        PrintNumber(number);
+    }
 
-        int ReadInt(string msg)
+    void PrintNumber (int N)
+    {
+        if(N < 1)
         {
-            Console.Write(msg);
-            return Convert.ToInt32(Console.ReadLine());
+            return;
         }
+        Console.Write(N + " ");
+        PrintNumber(N - 1);
+    }
+    int ReadInt(string msg)
+    {
+        Console.Write(msg);
+        return Convert.ToInt32(Console.ReadLine());
     }
 }
