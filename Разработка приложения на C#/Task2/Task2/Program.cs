@@ -1,19 +1,27 @@
 ﻿using System;
 
-class Program
+public class Program
 {
-    static void Main()
+    public static void Main(string[] args)
     {
-        long longNumber = 1234567890123456789;
-        int intNumber = 123456789;
-        byte byteNumber = 200;
+        // Примеры использования неявного приведения
+        Bits bitsFromLongImplicit = 1234567890123456789L;
+        Bits bitsFromIntImplicit = 123456789;
+        Bits bitsFromByteImplicit = (byte)123;
 
-        string longBits = Convert.ToString(longNumber, 2);
-        string intBits = Convert.ToString(intNumber, 2);
-        string byteBits = Convert.ToString(byteNumber, 2);
+        Console.WriteLine("Неявное приведение:");
+        Console.WriteLine(bitsFromLongImplicit);
+        Console.WriteLine(bitsFromIntImplicit);
+        Console.WriteLine(bitsFromByteImplicit);
 
-        Console.WriteLine($"Биты для long: {longBits}");
-        Console.WriteLine($"Биты для int: {intBits}");
-        Console.WriteLine($"Биты для byte: {byteBits}");
+        // Примеры использования явного приведения
+        long longValue = (long)bitsFromLongImplicit;
+        int intValue = (int)bitsFromIntImplicit;
+        byte byteValue = (byte)bitsFromByteImplicit;
+
+        Console.WriteLine("Явное приведение:");
+        Console.WriteLine(longValue);
+        Console.WriteLine(intValue);
+        Console.WriteLine(byteValue);
     }
 }
