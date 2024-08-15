@@ -5,17 +5,17 @@ class Program
     static void Main()
     {
         Random random = new Random();
-        int[] values = new int[20];
-        for (int i = 0; i < values.Length; i++)
+        int[] array = new int[20];
+        for (int i = 0; i < array.Length; i++)
         {
-            values[i] = random.Next(0, 10);
+            array[i] = random.Next(0, 10);
         }
 
-        int sum = random.Next(0, 20);
-        Console.WriteLine($"Дан массив чисел: {String.Join(" ", values)}");
-        Console.WriteLine($"Ищем 3 числа, которые дают в сумме {sum}:");
+        int target = random.Next(0, 20);
+        Console.WriteLine($"Дан массив чисел: {String.Join(" ", array)}");
+        Console.WriteLine($"Ищем 3 числа, которые дают в сумме {target}:");
 
-        var result = FindThreeNumbers(values, sum);
+        var result = FindThreeNumbers(array, target);
         if (result != null)
         {
             Console.WriteLine($"Найдены числа: {result[0]}, {result[1]}, {result[2]}");
