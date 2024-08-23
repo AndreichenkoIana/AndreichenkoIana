@@ -1,0 +1,13 @@
+﻿{
+  "DocumentID": 11892703104810,
+  "Type": "DocumentInvoice",
+  "Amount": "34.67",
+  "State": "OK",
+  "Paycharge": [
+    {
+      "Amount": "34.67",
+      "ID": 6759869780,
+      "Payday": "2024-01-01"
+    }
+  ]
+}
