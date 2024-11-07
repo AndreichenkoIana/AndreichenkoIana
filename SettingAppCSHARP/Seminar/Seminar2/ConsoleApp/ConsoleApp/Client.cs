@@ -7,23 +7,28 @@ namespace ConsoleApp
 {
     internal class Client
     {
+        private static bool isRunning = true;
         public static void SendMsg(string name)
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 16874);
             UdpClient udpClient = new UdpClient();
 
-            while (true)
+            while (isRunning)
             {
-                Console.WriteLine("Введите сообщение (или 'Exit' для выхода):");
-                string userInput = Console.ReadLine();
+                System.Console.WriteLine("Enter message");
+                string text = Console.ReadLine();
 
-                if (userInput.Equals("Exit", StringComparison.OrdinalIgnoreCase))
+                if (text.Equals("Exit", StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(text))
                 {
-                    Console.WriteLine("Завершение работы клиента.");
+                    isRunning = false;
+                    Message msg1 = new Message(name, text);
+                    string responseMsgJs1 = msg1.ToJson();
+                    byte[] responseData1 = Encoding.UTF8.GetBytes(responseMsgJs1);
+                    udpClient.Send(responseData1, ep);
                     break;
                 }
 
-                Message msg = new Message(name, userInput);
+                Message msg = new Message(name, text);
                 string responseMsgJs = msg.ToJson();
                 byte[] responseData = Encoding.UTF8.GetBytes(responseMsgJs);
                 udpClient.Send(responseData, ep);
@@ -31,9 +36,8 @@ namespace ConsoleApp
                 byte[] answerData = udpClient.Receive(ref ep);
                 string answerMsgJs = Encoding.UTF8.GetString(answerData);
                 Message answerMsg = Message.FromJson(answerMsgJs);
-                Console.WriteLine(answerMsg.ToString());
+                System.Console.WriteLine(answerMsg.ToString());
             }
-
             udpClient.Close();
         }
     }

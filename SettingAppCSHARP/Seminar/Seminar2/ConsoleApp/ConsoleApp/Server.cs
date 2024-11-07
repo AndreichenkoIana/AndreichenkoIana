@@ -25,12 +25,11 @@ namespace ConsoleApp
                 if (udpClient.Available > 0)
                 {
                     byte[] buffer = udpClient.Receive(ref ep);
-                    string data = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                    string data = Encoding.UTF8.GetString(buffer);
 
                     // Проверка на получение команды "Exit"
                     if (data.Equals("Exit", StringComparison.OrdinalIgnoreCase))
                     {
-                        Console.WriteLine("Получена команда 'Exit'. Завершение работы сервера.");
                         isRunning = false;
                         break;
                     }
