@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-namespace Work;
+﻿namespace Work;
 internal class Program
 {
     static void Main()
