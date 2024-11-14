@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 
 namespace Work;
-public class ValidateMessage()
+internal class ValidateMessage()
 {
     internal static void Validate(string input)
     {
