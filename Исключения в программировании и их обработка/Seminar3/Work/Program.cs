@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using Work;
-
-class UserDataApp
+namespace Work;
+internal class Program
 {
     static void Main()
     {
