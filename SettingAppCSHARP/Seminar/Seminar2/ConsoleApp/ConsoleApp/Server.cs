@@ -1,59 +1,38 @@
-﻿using System;
+﻿using System.Net.Sockets;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
+using ConsoleApp;
 
 namespace ConsoleApp
 {
     internal class Server
     {
-        private static bool isRunning = true;
-
-        public static void AcceptMsg()
+        public async Task AcceptMsg()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Any, 0);
+
             UdpClient udpClient = new UdpClient(16874);
-            Console.WriteLine("Сервер ожидает сообщение. Нажмите любую клавишу для завершения работы.");
+            IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            Console.WriteLine("Сервер ждет сообщение от клиента");
 
-            // Запускаем поток для ожидания нажатия клавиши
-            Thread keyListenerThread = new Thread(WaitForKeyPress);
-            keyListenerThread.Start();
+            CancellationTokenSource cts = new CancellationTokenSource();
 
-            while (isRunning)
+            while (!cts.IsCancellationRequested)
             {
-                if (udpClient.Available > 0)
-                {
-                    byte[] buffer = udpClient.Receive(ref ep);
-                    string data = Encoding.UTF8.GetString(buffer);
+                byte[] buffer = udpClient.Receive(ref iPEndPoint);
 
-                    // Проверка на получение команды "Exit"
-                    if (data.Equals("Exit", StringComparison.OrdinalIgnoreCase))
-                    {
-                        isRunning = false;
-                        break;
-                    }
+                var messageTxt = Encoding.UTF8.GetString(buffer);
+                Console.WriteLine($"получено {buffer.Length} байт");
 
-                    new Thread(() =>
-                    {
-                        Message msg = Message.FromJson(data);
-                        Console.WriteLine(msg.ToString());
-                        Message responseMsg = new Message("Server", "Message accepted on server!");
-                        string responseMsgJs = responseMsg.ToJson();
-                        byte[] responseDate = Encoding.UTF8.GetBytes(responseMsgJs);
-                        udpClient.Send(responseDate, ep);
-                    }).Start();
-                }
+                byte[] reply = Encoding.UTF8.GetBytes("Сообщение получено");
+
+                int bytes = await udpClient.SendAsync(reply, iPEndPoint);
+                Console.WriteLine($"отправлено {bytes} байт");
+
+                Message? message = Message.FromJson(messageTxt);
+                if (message.Text.ToLower().Equals("exit")) cts.Cancel();
+                message.PrintGetMessageFrom();
+                cts.Cancel();
             }
-
-            udpClient.Close();
-            Console.WriteLine("Сервер остановлен.");
-        }
-
-        private static void WaitForKeyPress()
-        {
-            Console.ReadKey(true); // Ожидаем нажатия любой клавиши
-            isRunning = false; // Сигнализируем основному потоку завершить работу
         }
     }
 }

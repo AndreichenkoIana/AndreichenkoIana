@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static ConsoleApp.Server;
 
 namespace ConsoleApp
 {
@@ -14,7 +15,8 @@ namespace ConsoleApp
         {
             if (args.Length == 0)
             {
-                Server.AcceptMsg();
+                var server = new Server();
+                server?.AcceptMsg();
             }
             else
             {

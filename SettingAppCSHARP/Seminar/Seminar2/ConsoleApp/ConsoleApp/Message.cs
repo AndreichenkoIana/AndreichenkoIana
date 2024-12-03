@@ -23,7 +23,10 @@ namespace ConsoleApp
             this.Stime = DateTime.Now;
         }
         public Message() { }
-
+        public void PrintGetMessageFrom()
+        {
+            Console.WriteLine(ToString());
+        }
         public override string ToString()
         {
             return $"Получено сообщение от {Name} ({Stime.ToShortTimeString()}): \n {Text}";
