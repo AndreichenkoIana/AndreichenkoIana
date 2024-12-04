@@ -5,7 +5,6 @@ namespace ApiWeb.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [LogActionFilter]
     public class MathController:ControllerBase
     {
         [HttpGet(template: "someCalculation")]
