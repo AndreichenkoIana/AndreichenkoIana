@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-
+﻿
 namespace MarketPlace.Models
 {
     public partial class Product
