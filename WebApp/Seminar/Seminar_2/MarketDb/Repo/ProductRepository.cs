@@ -4,6 +4,7 @@ using MarketDb.Controllers;
 using MarketDb.Data;
 using MarketDb.DTO;
 using MarketDb.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace MarketDb.Repo
@@ -47,7 +48,6 @@ namespace MarketDb.Repo
 
             return entityProduct.Id; // Если группа уже существует, возвращаем её ID
         }
-
         public IEnumerable<ProductDto> GetProducts()
         {
             // Проверяем наличие данных в кэше
@@ -65,6 +65,19 @@ namespace MarketDb.Repo
             _cache.Set(CacheKey, productsList, TimeSpan.FromMinutes(30));
 
             return productsList;
+        }
+        public bool DeleteProduct(int id)
+        {
+            var product = _context.Procucts.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                return false; // Продукт не найден
+            }
+
+            _context.Procucts.Remove(product);
+            _context.SaveChanges();
+            _cache.Remove(CacheKey);
+            return true; // Продукт успешно удален
         }
     }
 }
