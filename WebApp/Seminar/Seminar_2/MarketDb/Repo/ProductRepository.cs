@@ -31,12 +31,12 @@ namespace MarketDb.Repo
             }
 
             // Проверяем, существует ли группа с таким именем
-            var entityGroup = _context.Procucts.FirstOrDefault(x => x.Name.ToLower() == product.Name.ToLower());
-            if (entityGroup == null)
+            var entityProduct = _context.Procucts.FirstOrDefault(x => x.Name.ToLower() == product.Name.ToLower());
+            if (entityProduct == null)
             {
                 // Если группа не найдена, создаем новую
-                var entity = _mapper.Map<ProductGroup>(product);
-                _context.ProductGroups.Add(entity);
+                var entity = _mapper.Map<Product>(product);
+                _context.Procucts.Add(entity);
                 _context.SaveChanges();
 
                 // Удаляем кэш при добавлении новой группы
@@ -45,7 +45,7 @@ namespace MarketDb.Repo
                 return entity.Id;
             }
 
-            return entityGroup.Id; // Если группа уже существует, возвращаем её ID
+            return entityProduct.Id; // Если группа уже существует, возвращаем её ID
         }
 
         public IEnumerable<ProductDto> GetProducts()
