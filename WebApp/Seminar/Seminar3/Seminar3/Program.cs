@@ -27,8 +27,6 @@ namespace Seminar3
                 .AddQueryType<MySimpleQuery>()
                 .AddMutationType<MySimpleMutation>();
 
-
-
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
@@ -38,41 +36,15 @@ namespace Seminar3
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
                 var connectionString = config.GetConnectionString("db");
-
-               // Регистрация ProductsContext с использованием строки подключения
                 containerBuilder.Register(c => new ProductsContext(connectionString ?? ""))
                                 .InstancePerDependency();
-
                 containerBuilder.RegisterType<ProductRepository>().As<IProductRepository>().InstancePerLifetimeScope();
                 containerBuilder.RegisterType<GroupRepository>().As<IGroupRepository>().InstancePerLifetimeScope();
                 containerBuilder.RegisterType<StoreRepository>().As<IStoreRepository>().InstancePerLifetimeScope();
             });
 
-
             var app = builder.Build();
 
-            //// Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
-            //    app.UseSwagger();
-            //    app.UseSwaggerUI();
-            //}
-
-            //var staticFilePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
-            //Directory.CreateDirectory(staticFilePath);
-
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(staticFilePath),
-            //    RequestPath = "/static"
-            //});
-
-
-            //app.UseHttpsRedirection();
-
-            //app.UseAuthorization();
-
-            //app.MapControllers();
             app.MapGraphQL();
             app.Run();
 
