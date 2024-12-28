@@ -13,7 +13,7 @@ namespace Seminar3.Repo
         private readonly IMemoryCache _cache;
         private readonly ProductsContext _context;
 
-        private const string CacheKey = "groups"; // Константа для ключа кэша
+        private const string CacheKey = "stores"; // Константа для ключа кэша
 
         public StoreRepository(IMapper mapper, IMemoryCache cache, ProductsContext context)
         {
